@@ -55,7 +55,8 @@ var db_park = {
   user: "root",
   password: "comp@113",
   // password: "",  // for Dev
-  database: "db_park2",
+  // database: "db_park2",
+  database: "db_park",
 };
 
 var conp;
@@ -88,7 +89,6 @@ function handleDisconnect_park() {
 handleDisconnect_park();
 
 // ######################## end Park ###################/
-
 
 //#####################  buffet ###################//
 var db_buffet = {
@@ -234,7 +234,6 @@ router.post("/pupdatecheck", (req, res) => {
   console.log(req.body);
   let idstaffcheck = req.body.id;
   let idticker = req.body.idticker;
-
 
   let sql = "UPDATE ticker SET idftaffcheck = ? WHERE id = ?";
   conp.query(sql, [idstaffcheck, idticker], (err, resp) => {
@@ -3807,7 +3806,7 @@ router.get("/checkdayreport", (req, res) => {
   }
   main();
 
-  function getStaff() { }
+  function getStaff() {}
 
   function getData() {
     let iduser = req.query.iduser;
@@ -4836,17 +4835,15 @@ router.get("/reportsearch", (req, res) => {
     if (datepay != "" && enddate != "") {
       // sql += " AND (datepay BETWEEN ? AND ?) ";
 
-
-
       let d_startdata = moment(datepay);
       let d_enddate = moment(enddate);
-      let diffday = d_startdata.diff(d_enddate, 'days') // 1
+      let diffday = d_startdata.diff(d_enddate, "days"); // 1
       console.log("diffday = " + diffday);
 
-      let add_startdata = d_startdata.add(1, 'days');
+      let add_startdata = d_startdata.add(1, "days");
       console.log("add_startdata = " + add_startdata.format("YYYY-MM-DD"));
       // ลดลง 1 วัน enddate โดย moment
-      let add_enddate = d_enddate.subtract(1, 'days');
+      let add_enddate = d_enddate.subtract(1, "days");
 
       // if (diffday < 0) {
       //   sql += " AND ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
@@ -4878,9 +4875,7 @@ router.get("/reportsearch", (req, res) => {
       console.log("ok");
       // New***
       if (diffday < 0) {
-
         console.log("ok22");
-
 
         paramSql.push(datepay);
         paramSql.push(starttime);
@@ -4890,10 +4885,9 @@ router.get("/reportsearch", (req, res) => {
         paramSql.push(add_enddate.format("YYYY-MM-DD"));
         console.log(paramSql);
         console.log("***************");
-        sql += " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+        sql +=
+          " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
         sql += " OR (datepay BETWEEN ? AND ?)) ";
-
-
       } else {
         console.log("ok200002");
 
@@ -4907,8 +4901,6 @@ router.get("/reportsearch", (req, res) => {
         sql += " AND ((datepay = ? AND timepay > ? AND timepay < ?)) ";
       }
       // New***
-
-
     }
 
     if (plate != "") {
@@ -4996,11 +4988,10 @@ router.get("/pselectticker", (req, res) => {
   }
 
   function fnMapData(data) {
-
     let mData = data.map((item) => {
       return {
         ...item,
-        datepayx: moment(item.datepay).format("DD-MM-YYYY")
+        datepayx: moment(item.datepay).format("DD-MM-YYYY"),
       };
     });
     // map data ทั้งหมด
@@ -5024,7 +5015,7 @@ router.get("/pselectticker", (req, res) => {
   }
 
   function sendData(data) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(data);
     // console.log('====================================');
     res.send({
@@ -5041,12 +5032,7 @@ router.put("/pupdateticker", (req, res) => {
   let build = req.body.build;
 
   let sql = "UPDATE ticker SET price = ?,plate = ?,idbuild = ? WHERE id = ? ";
-  conp.query(sql, [
-    price,
-    plate,
-    build,
-    id,
-  ], (err, resp) => {
+  conp.query(sql, [price, plate, build, id], (err, resp) => {
     if (err) {
       console.log("mysql err", err);
     }
@@ -5070,12 +5056,12 @@ router.get("/pdashboard", (req, res) => {
 
   let d_startdata = moment(datestart);
   let d_enddate = moment(dateend);
-  diffday = d_startdata.diff(d_enddate, 'days') // 1
+  diffday = d_startdata.diff(d_enddate, "days"); // 1
   // console.log("diffday = " + diffday);
 
-  let add_startdata = d_startdata.add(1, 'days');
+  let add_startdata = d_startdata.add(1, "days");
   // ลดลง 1 วัน enddate โดย moment
-  let add_enddate = d_enddate.subtract(1, 'days');
+  let add_enddate = d_enddate.subtract(1, "days");
 
   if (diffday < 0) {
     paramSql.push(datestart);
@@ -5084,7 +5070,6 @@ router.get("/pdashboard", (req, res) => {
     paramSql.push(timeend);
     paramSql.push(add_startdata.format("YYYY-MM-DD"));
     paramSql.push(add_enddate.format("YYYY-MM-DD"));
-
   } else {
     paramSql.push(datestart);
     paramSql.push(timestart);
@@ -5110,13 +5095,13 @@ router.get("/pdashboard", (req, res) => {
     let sql = "SELECT SUM(price) As price FROM ticker ";
     if (diffday < 0) {
       // sql += "WHERE ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
-      sql += "WHERE ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+      sql +=
+        "WHERE ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
       sql += " OR (datepay BETWEEN ? AND ?) ";
     } else {
       sql += "WHERE ((datepay = ? AND timepay > ? AND timepay < ?)) ";
     }
     // sql += "WHERE datepay BETWEEN ? AND ? ";
-
 
     conp.query(sql, paramSql, (err, resp) => {
       if (err) {
@@ -5138,12 +5123,12 @@ router.get("/pdashboard", (req, res) => {
     let sql = "SELECT COUNT(id) As car FROM ticker ";
     // sql += "WHERE datepay BETWEEN ? AND ?";
     if (diffday < 0) {
-      sql += "WHERE ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+      sql +=
+        "WHERE ((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
       sql += " OR (datepay BETWEEN ? AND ?) ";
     } else {
       sql += "WHERE ((datepay = ? AND timepay > ? AND timepay < ?)) ";
     }
-
 
     conp.query(sql, paramSql, (err, resp) => {
       if (err) {
@@ -5191,10 +5176,9 @@ router.get("/pdashboard", (req, res) => {
     sql += "WHERE idcar = ? ";
     // sql += "datepay BETWEEN ? AND ?";
 
-
-
     if (diffday < 0) {
-      sql += " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+      sql +=
+        " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
       sql += " OR (datepay BETWEEN ? AND ?)) ";
       // paramSql.push(datestart);
       // paramSql.push(timestart);
@@ -5208,18 +5192,14 @@ router.get("/pdashboard", (req, res) => {
       // paramSql.push(add_startdata.format("YYYY-MM-DD"));
       // paramSql.push(add_enddate.format("YYYY-MM-DD"));
       await loopOneTwo();
-
     } else {
-
       // sql += " AND ((datepay = ? AND timepay > ?) AND (datepay = ? AND timepay < ?)) ";
       sql += " AND ((datepay = ? AND timepay > ? AND timepay < ?)) ";
       // paramSql.push(datestart);
       // paramSql.push(timestart);
       // paramSql.push(timeend);
       await loopOne();
-
     }
-
 
     async function loopOne() {
       // console.log("loopOne");
@@ -5266,7 +5246,15 @@ router.get("/pdashboard", (req, res) => {
           await conp.query(
             sql,
             // [datacar[i].id, datestart, dateend], // เดิม
-            [datacar[i].id, paramSql[0], paramSql[1], paramSql[2], paramSql[3], paramSql[4], paramSql[5]], // เดิม
+            [
+              datacar[i].id,
+              paramSql[0],
+              paramSql[1],
+              paramSql[2],
+              paramSql[3],
+              paramSql[4],
+              paramSql[5],
+            ], // เดิม
             (err, resp) => {
               if (err) {
                 console.log("mysql err", err);
@@ -5291,7 +5279,6 @@ router.get("/pdashboard", (req, res) => {
         }
       }
     }
-
   }
 
   function fnDetailCar(price, countticker, datacar, namecar) {
@@ -5319,8 +5306,8 @@ router.get("/pdashboard", (req, res) => {
       loopOnexxx();
     }
 
-
-    async function loopOnexxx() { // วันเท่ากัน
+    async function loopOnexxx() {
+      // วันเท่ากัน
       let counttypecar = [];
       let indexToModify = 0;
       // console.log(datacar);
@@ -5328,7 +5315,6 @@ router.get("/pdashboard", (req, res) => {
       sql += "WHERE idcar = ? ";
       // sql += "datepay BETWEEN ? AND ? ";
       sql += " AND ((datepay = ? AND timepay > ? AND timepay < ?)) ";
-
 
       // paramSql.push(datestart);
       // paramSql.push(timestart);
@@ -5403,20 +5389,28 @@ router.get("/pdashboard", (req, res) => {
       sql += "WHERE idcar = ? ";
       // sql += "datepay BETWEEN ? AND ?";
       //  sql += " AND ((datepay = ? AND timepay > ? AND timepay < ?)) ";
-      sql += " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+      sql +=
+        " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
       sql += " OR (datepay BETWEEN ? AND ?)) ";
 
       let totalNomalPrice = 0;
       // console.log(sql);
       // console.log(paramSql);
 
-
       for (let i = 0; i < datacar.length; i++) {
         // console.log("i = " + i);
         await conp.query(
           sql,
           // [datacar[i].id, datestart, dateend],
-          [datacar[i].id, paramSql[0], paramSql[1], paramSql[2], paramSql[3], paramSql[4], paramSql[5]],
+          [
+            datacar[i].id,
+            paramSql[0],
+            paramSql[1],
+            paramSql[2],
+            paramSql[3],
+            paramSql[4],
+            paramSql[5],
+          ],
 
           (err, resp) => {
             if (err) {
@@ -5430,7 +5424,6 @@ router.get("/pdashboard", (req, res) => {
               indexToModify = datacar.findIndex(
                 (item) => item.id === datacar[i].id
               );
-
 
               // ตรวจสอบว่าอ็อบเจกต์อยู่ในอาร์เรย์หรือไม่
               if (indexToModify !== -1) {
@@ -5449,29 +5442,41 @@ router.get("/pdashboard", (req, res) => {
                   // 2023-12-11
                   sqlZero = "SELECT sum(price) As price FROM ticker ";
                   sqlZero += "WHERE idcar = ? ";
-                  sqlZero += " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
+                  sqlZero +=
+                    " AND (((datepay = ? AND timepay > ?) OR (datepay = ? AND timepay < ?)) ";
                   sqlZero += " OR (datepay BETWEEN ? AND ?)) ";
                   fnsqlZero();
                   async function fnsqlZero() {
-                    await conp.query(sqlZero, [datacar[i].id, paramSql[0], paramSql[1], paramSql[2], paramSql[3], paramSql[4], paramSql[5]], (err, resp) => {
-                      if (err) {
-                        console.log("mysql err", err);
+                    await conp.query(
+                      sqlZero,
+                      [
+                        datacar[i].id,
+                        paramSql[0],
+                        paramSql[1],
+                        paramSql[2],
+                        paramSql[3],
+                        paramSql[4],
+                        paramSql[5],
+                      ],
+                      (err, resp) => {
+                        if (err) {
+                          console.log("mysql err", err);
+                        }
+                        // console.log("price = " + resp[0].price);
+                        datacar[indexToModify].carprice = commaNumber(
+                          resp[0].price
+                        );
+                        // console.log(datacar[indexToModify].carprice);
                       }
-                      // console.log("price = " + resp[0].price);
-                      datacar[indexToModify].carprice = commaNumber(resp[0].price);
-                      // console.log(datacar[indexToModify].carprice);
-                    });
+                    );
                   }
 
                   // 2023-12-11
-
-
                 } else {
                   datacar[indexToModify].carprice = commaNumber(valcarprice);
                   totalNomalPrice += valcarprice;
                 }
               } else {
-
                 // console.log("ไม่พบอ็อบเจกต์ในอาร์เรย์");
               }
 
@@ -5480,7 +5485,7 @@ router.get("/pdashboard", (req, res) => {
               counttypecar.push(0); // เดิม
             }
 
-            // console.log("i2 = " + i);  
+            // console.log("i2 = " + i);
             setTimeout(() => {
               outLoop(i, counttypecar);
             }, 2000);
@@ -5488,10 +5493,7 @@ router.get("/pdashboard", (req, res) => {
         );
       }
     }
-
   }
-
-
 
   function sendData(price, countticker, datacar, namecar, counttypecar) {
     // console.log("price = " + price);
@@ -5839,7 +5841,7 @@ router.get("/pcheckid", (req, res) => {
     var originalText = id;
 
     // หาตำแหน่งของเครื่องหมาย '/'
-    var lastIndex = originalText.lastIndexOf('/');
+    var lastIndex = originalText.lastIndexOf("/");
 
     // ถ้าพบเครื่องหมาย '/' ในข้อความ
     if (lastIndex !== -1) {
@@ -6028,7 +6030,6 @@ router.get("/qrcodedetail/:pass/:id", (req, res) => {
         namestaff: "-",
         namestaffcheck: "-",
         staffpassword: 0,
-
       },
     ];
     let sql = "SELECT * FROM staffcheck WHERE password = ?";
@@ -6146,7 +6147,7 @@ router.get("/qrcodedetail/:id", (req, res) => {
     id: id,
     data: data,
     idcheck: 0,
-    staffpass: 0
+    staffpass: 0,
   });
 });
 
@@ -6206,13 +6207,13 @@ router.get("/psendmoney", (req, res) => {
   }
 
   function fnBuild(totalprice) {
-    sql = "SELECT sum(price) AS sumprice,"
-    sql += "ticker.idbuild,"
-    sql += "build.namebuild "
+    sql = "SELECT sum(price) AS sumprice,";
+    sql += "ticker.idbuild,";
+    sql += "build.namebuild ";
     sql += "FROM role ";
     sql += "LEFT JOIN ticker ON role.idbuild = ticker.idbuild ";
     sql += "LEFT JOIN build ON ticker.idbuild = build.id ";
-    sql += "WHERE role.idstaff = ? "
+    sql += "WHERE role.idstaff = ? ";
     sql += "AND ticker.idstaff = ? ";
     sql += "AND ticker.datepay = ? ";
     sql += "GROUP BY role.id ";
@@ -6234,7 +6235,7 @@ router.get("/psendmoney", (req, res) => {
 });
 
 // Dayreport
-router.post('/dayreportpark', (req, res) => {
+router.post("/dayreportpark", (req, res) => {
   let dataStaff = [];
   let Total = [];
   function main() {
@@ -6245,8 +6246,8 @@ router.post('/dayreportpark', (req, res) => {
   function getDataStaff() {
     let datepay = req.body.datepay;
     // console.log(req.body);
-    let sql = "SELECT ticker.idstaff, staff.`name`,staff.lastname FROM ticker "
-    sql += "LEFT JOIN staff ON ticker.idstaff = staff.id "
+    let sql = "SELECT ticker.idstaff, staff.`name`,staff.lastname FROM ticker ";
+    sql += "LEFT JOIN staff ON ticker.idstaff = staff.id ";
     sql += "WHERE datepay = ? ";
     sql += "GROUP BY idstaff ";
     sql += "order by ticker.timepay ASC ";
@@ -6268,14 +6269,15 @@ router.post('/dayreportpark', (req, res) => {
   function fnBuild() {
     // console.log(dataStaff);
     // console.log("dataLength = " + dataStaff.length)
-    let sql = "SELECT ticker.idbuild, build.namebuild,ticker.idcar,cartype.namereport,"
-    sql += "count(ticker.id) As numcar, "
-    sql += "sum(ticker.price) As totalprice "
-    sql += "FROM ticker "
-    sql += "LEFT JOIN build ON ticker.idbuild = build.id "
-    sql += "LEFT JOIN cartype ON ticker.idcar = cartype.id "
-    sql += "WHERE datepay = ? AND idstaff = ? AND cartype.status = 1 "
-    sql += "GROUP BY idbuild,cartype.idcargroup"
+    let sql =
+      "SELECT ticker.idbuild, build.namebuild,ticker.idcar,cartype.namereport,";
+    sql += "count(ticker.id) As numcar, ";
+    sql += "sum(ticker.price) As totalprice ";
+    sql += "FROM ticker ";
+    sql += "LEFT JOIN build ON ticker.idbuild = build.id ";
+    sql += "LEFT JOIN cartype ON ticker.idcar = cartype.id ";
+    sql += "WHERE datepay = ? AND idstaff = ? AND cartype.status = 1 ";
+    sql += "GROUP BY idbuild,cartype.idcargroup";
     let toal = 0;
     for (let i = 0; i < dataStaff.length; i++) {
       // dataStaff[i] = [];
@@ -6283,15 +6285,14 @@ router.post('/dayreportpark', (req, res) => {
         if (err) {
           console.log("[mysql err]", err);
         }
-        dataStaff[i].detail = resp
+        dataStaff[i].detail = resp;
         // console.log("resp.length == " + resp.length);
         if (i == dataStaff.length - 1) {
           // dataStaff[0].alltotal = allTotal;
           setTimeout(() => {
-            totalAllPrice()
+            totalAllPrice();
           }, 1000);
         }
-
       });
       // console.log("i = " + i);
     }
@@ -6302,8 +6303,8 @@ router.post('/dayreportpark', (req, res) => {
   }
 
   function totalAllPrice() {
-    let sql = "SELECT sum(price) As totalprice FROM ticker "
-    sql += "WHERE datepay = ? "
+    let sql = "SELECT sum(price) As totalprice FROM ticker ";
+    sql += "WHERE datepay = ? ";
     conp.query(sql, [req.body.datepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6315,8 +6316,8 @@ router.post('/dayreportpark', (req, res) => {
   }
 
   function totalAllCar() {
-    let sql = "SELECT count(id) As totalcar FROM ticker "
-    sql += "WHERE datepay = ? "
+    let sql = "SELECT count(id) As totalcar FROM ticker ";
+    sql += "WHERE datepay = ? ";
     conp.query(sql, [req.body.datepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6330,13 +6331,13 @@ router.post('/dayreportpark', (req, res) => {
     // console.log("end");
     // console.log(dataStaff[0]);
     res.send({
-      data: dataStaff
+      data: dataStaff,
     });
   }
 });
 // End Dayreport
 // Dayreportall
-router.post('/dayreportparkall_', (req, res) => {
+router.post("/dayreportparkall_", (req, res) => {
   // console.log("dayreportparkall");
   // console.log(req.body);
 
@@ -6353,9 +6354,9 @@ router.post('/dayreportparkall_', (req, res) => {
     let enddatepay = req.body.enddatepay;
     // console.log(req.body);
 
-    let sql = "SELECT datepay FROM ticker "
-    sql += "WHERE ticker.datepay BETWEEN ? AND ? "
-    sql += "GROUP BY ticker.datepay"
+    let sql = "SELECT datepay FROM ticker ";
+    sql += "WHERE ticker.datepay BETWEEN ? AND ? ";
+    sql += "GROUP BY ticker.datepay";
     conp.query(sql, [datepay, enddatepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6375,7 +6376,7 @@ router.post('/dayreportparkall_', (req, res) => {
   function mapDate() {
     let mDataDate = dataDate.map((item) => {
       return {
-        datepay: moment(item.datepay).format("YYYY-MM-DD")
+        datepay: moment(item.datepay).format("YYYY-MM-DD"),
       };
     });
     dataDate = mDataDate;
@@ -6384,24 +6385,24 @@ router.post('/dayreportparkall_', (req, res) => {
 
   // แบ่งกลุ่มประเภทรถ
   function fnTypeCar(mDataDate) {
-
-    let sql = "SELECT cartype.cartype,cartype.id,ticker.idcar,cartype.idcargroup "
-    sql += "FROM ticker "
-    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id "
-    sql += "WHERE datepay = ? "
+    let sql =
+      "SELECT cartype.cartype,cartype.id,ticker.idcar,cartype.idcargroup ";
+    sql += "FROM ticker ";
+    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id ";
+    sql += "WHERE datepay = ? ";
     sql += "GROUP BY idcargroup";
 
-    let sqlBuild = "SELECT Sum(ticker.price) AS sumprice,"
-    sqlBuild += "count(ticker.id) As countcar,"
-    sqlBuild += "ticker.idbuild,"
-    sqlBuild += "build.namebuild,"
-    sqlBuild += "cartype.idcargroup "
-    sqlBuild += "FROM ticker "
-    sqlBuild += "INNER JOIN cartype ON ticker.idcar = cartype.id "
-    sqlBuild += "INNER JOIN build ON ticker.idbuild = build.id "
-    sqlBuild += "WHERE datepay = ? "
-    sqlBuild += "AND idcargroup = ? "
-    sqlBuild += "GROUP BY build.id"
+    let sqlBuild = "SELECT Sum(ticker.price) AS sumprice,";
+    sqlBuild += "count(ticker.id) As countcar,";
+    sqlBuild += "ticker.idbuild,";
+    sqlBuild += "build.namebuild,";
+    sqlBuild += "cartype.idcargroup ";
+    sqlBuild += "FROM ticker ";
+    sqlBuild += "INNER JOIN cartype ON ticker.idcar = cartype.id ";
+    sqlBuild += "INNER JOIN build ON ticker.idbuild = build.id ";
+    sqlBuild += "WHERE datepay = ? ";
+    sqlBuild += "AND idcargroup = ? ";
+    sqlBuild += "GROUP BY build.id";
 
     for (let i = 0; i < mDataDate.length; i++) {
       // console.log(mDataDate[i].datepay);
@@ -6414,26 +6415,30 @@ router.post('/dayreportparkall_', (req, res) => {
         // Out loop
         let sumCar = 0;
         for (let j = 0; j < resp.length; j++) {
-          conp.query(sqlBuild, [mDataDate[i].datepay, resp[j].idcargroup], (err, respp) => {
-            if (err) {
-              console.log("[mysql err]", err);
-            }
-            if (respp.length == 0) {
-              dataDate[i].cargroup[j].detailbuild = [];
-            } else {
-              sumCar += respp[0].countcar;
-              dataDate[i].cargroup[j].detailbuild = respp;
-              // console.log("sumCar = " + sumCar);
-              // if(i == resp.length - 1){
-              //   TotalCar.push(sumCar);
-              //   sumCar = 0;
-              // }
-            }
+          conp.query(
+            sqlBuild,
+            [mDataDate[i].datepay, resp[j].idcargroup],
+            (err, respp) => {
+              if (err) {
+                console.log("[mysql err]", err);
+              }
+              if (respp.length == 0) {
+                dataDate[i].cargroup[j].detailbuild = [];
+              } else {
+                sumCar += respp[0].countcar;
+                dataDate[i].cargroup[j].detailbuild = respp;
+                // console.log("sumCar = " + sumCar);
+                // if(i == resp.length - 1){
+                //   TotalCar.push(sumCar);
+                //   sumCar = 0;
+                // }
+              }
 
-            if ((i == mDataDate.length - 1) && (j == resp.length - 1)) {
-              sendData();
+              if (i == mDataDate.length - 1 && j == resp.length - 1) {
+                sendData();
+              }
             }
-          })
+          );
         }
 
         // End Out Loop
@@ -6442,10 +6447,7 @@ router.post('/dayreportparkall_', (req, res) => {
   }
 
   //// แบ่งกลุ่มอาคาร
-  function fnBuild(mDataDate) {
-
-  }
-
+  function fnBuild(mDataDate) {}
 
   function sendData() {
     // console.log("end");
@@ -6456,16 +6458,15 @@ router.post('/dayreportparkall_', (req, res) => {
     setTimeout(() => {
       res.send({
         datadate: dataDate,
-        totalcar: TotalCar
+        totalcar: TotalCar,
       });
     }, 1000);
-
   }
 });
 // End Dayreport
 
-router.post('/dayreportparkall', (req, res) => {
-  console.log('dayreportparkall');
+router.post("/dayreportparkall", (req, res) => {
+  console.log("dayreportparkall");
 
   let dataDate = [];
   let dataday = [];
@@ -6480,9 +6481,9 @@ router.post('/dayreportparkall', (req, res) => {
   main();
 
   function getTypeCar() {
-    let sql = "SELECT idcargroup,namereport FROM cartype "
-    sql += "WHERE status = 1 "
-    sql += "GROUP BY idcargroup "
+    let sql = "SELECT idcargroup,namereport FROM cartype ";
+    sql += "WHERE status = 1 ";
+    sql += "GROUP BY idcargroup ";
     sql += "ORDER BY idcargroup ASC ";
 
     conp.query(sql, (err, resp) => {
@@ -6491,16 +6492,16 @@ router.post('/dayreportparkall', (req, res) => {
       }
       dataTypeCar = resp;
       fnDate();
-    })
+    });
   }
 
   // หาวัน
   function fnDate() {
     let datepay = req.body.datepay;
     let enddatepay = req.body.enddatepay;
-    let sql = "SELECT datepay FROM ticker "
-    sql += "WHERE ticker.datepay BETWEEN ? AND ? "
-    sql += "GROUP BY ticker.datepay"
+    let sql = "SELECT datepay FROM ticker ";
+    sql += "WHERE ticker.datepay BETWEEN ? AND ? ";
+    sql += "GROUP BY ticker.datepay";
     conp.query(sql, [datepay, enddatepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6513,7 +6514,7 @@ router.post('/dayreportparkall', (req, res) => {
   function mapDate() {
     let mDataDate = dataday.map((item) => {
       return {
-        datepay: moment(item.datepay).format("YYYY-MM-DD")
+        datepay: moment(item.datepay).format("YYYY-MM-DD"),
       };
     });
     dataday = mDataDate;
@@ -6523,10 +6524,9 @@ router.post('/dayreportparkall', (req, res) => {
 
   // นำประเภทรถไปใส่ใน วัน
   function fnTypeCarinDay() {
-
-    let sql = "SELECT idcargroup,namereport FROM cartype "
-    sql += "WHERE status = 1 "
-    sql += "GROUP BY idcargroup "
+    let sql = "SELECT idcargroup,namereport FROM cartype ";
+    sql += "WHERE status = 1 ";
+    sql += "GROUP BY idcargroup ";
     sql += "ORDER BY idcargroup ASC ";
 
     for (let i = 0; i < dataday.length; i++) {
@@ -6536,22 +6536,22 @@ router.post('/dayreportparkall', (req, res) => {
         }
         // console.log(resp);
         dataday[i].typecar = resp;
-        if (i == (dataday.length - 1)) {
+        if (i == dataday.length - 1) {
           setTimeout(() => {
             fnBuildinCar();
             // }, 3000);
           }, 10000);
         }
         // sendData();
-      })
+      });
     }
   }
 
   // นำอาคารไปใส่ใน ประเภทรถ
   function fnBuildinCar() {
-    let sql = "SELECT build.id AS idbuild ,build.namebuild "
-    sql += "FROM build WHERE status = 1 "
-    sql += "ORDER BY buildorder "
+    let sql = "SELECT build.id AS idbuild ,build.namebuild ";
+    sql += "FROM build WHERE status = 1 ";
+    sql += "ORDER BY buildorder ";
 
     for (let i = 0; i < dataday.length; i++) {
       // console.log("xxx TEst ");
@@ -6565,15 +6565,13 @@ router.post('/dayreportparkall', (req, res) => {
           //     // console.log("test");
           dataday[i].typecar[n].detail = resp;
 
-
-
-          if ((i == dataday.length - 1) && (n == dataday[i].typecar.length - 1)) {
+          if (i == dataday.length - 1 && n == dataday[i].typecar.length - 1) {
             // fnDetailPrice();
             setTimeout(() => {
               fnDetailPrice();
             }, 100);
           }
-        })
+        });
       }
     }
   }
@@ -6583,36 +6581,44 @@ router.post('/dayreportparkall', (req, res) => {
     // console.log(dataday.length);
     // console.log("xxxxxxxxxxxxxxxxxxxxxxxxx");
 
-    let sql = "SELECT Sum(ticker.price) AS price,"
-    sql += "Count(ticker.id) AS numcar "
-    sql += "FROM ticker "
-    sql += "INNER JOIN build ON ticker.idbuild = build.id "
-    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id "
-    sql += "WHERE datepay = ? "
-    sql += "AND build.id = ? "
-    sql += "AND cartype.idcargroup = ?"
+    let sql = "SELECT Sum(ticker.price) AS price,";
+    sql += "Count(ticker.id) AS numcar ";
+    sql += "FROM ticker ";
+    sql += "INNER JOIN build ON ticker.idbuild = build.id ";
+    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id ";
+    sql += "WHERE datepay = ? ";
+    sql += "AND build.id = ? ";
+    sql += "AND cartype.idcargroup = ?";
     let valtotalprice = 0;
 
     for (let i = 0; i < dataday.length; i++) {
       for (let n = 0; n < dataday[i].typecar.length; n++) {
         for (let m = 0; m < dataday[i].typecar[n].detail.length; m++) {
-          conp.query(sql, [dataday[i].datepay,
-          dataday[i].typecar[n].detail[m].idbuild,
-          dataday[i].typecar[n].idcargroup]
-            , (err, resp) => {
+          conp.query(
+            sql,
+            [
+              dataday[i].datepay,
+              dataday[i].typecar[n].detail[m].idbuild,
+              dataday[i].typecar[n].idcargroup,
+            ],
+            (err, resp) => {
               if (err) {
                 console.log("[mysql err]", err);
               }
               dataday[i].typecar[n].detail[m].detailprice = resp;
-              if ((i == dataday.length - 1) && (n == dataday[i].typecar.length - 1) && (m == dataday[i].typecar[n].detail.length - 1)) {
+              if (
+                i == dataday.length - 1 &&
+                n == dataday[i].typecar.length - 1 &&
+                m == dataday[i].typecar[n].detail.length - 1
+              ) {
                 setTimeout(() => {
                   totalPrice();
                 }, 200);
               }
-            })
+            }
+          );
         }
       }
-
     }
   }
 
@@ -6652,8 +6658,9 @@ router.post('/dayreportparkall', (req, res) => {
 
   function totalPrice() {
     for (let i = 0; i < dataday.length; i++) {
-      let sql = "SELECT sum(price) As totalprice,count(id) As totalcar FROM ticker "
-      sql += "WHERE datepay = ? "
+      let sql =
+        "SELECT sum(price) As totalprice,count(id) As totalcar FROM ticker ";
+      sql += "WHERE datepay = ? ";
       conp.query(sql, [dataday[i].datepay], (err, resp) => {
         if (err) {
           console.log("[mysql err]", err);
@@ -6669,8 +6676,9 @@ router.post('/dayreportparkall', (req, res) => {
   }
 
   function fnTotalBigAllDay() {
-    let sql = "SELECT sum(price) As totalprice,count(id) As totalcar FROM ticker "
-    sql += "WHERE datepay BETWEEN ? AND ? "
+    let sql =
+      "SELECT sum(price) As totalprice,count(id) As totalcar FROM ticker ";
+    sql += "WHERE datepay BETWEEN ? AND ? ";
     conp.query(sql, [req.body.datepay, req.body.enddatepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6680,7 +6688,6 @@ router.post('/dayreportparkall', (req, res) => {
     });
   }
 
-
   function totalAllDay() {
     // console.log("***************");
     // console.log(dataday[0].typecar.length);
@@ -6688,14 +6695,21 @@ router.post('/dayreportparkall', (req, res) => {
     let valtotalprice = 0;
     let valtotalcar = 0;
 
-    for (let i = 0; i < dataday[0].typecar.length; i++) { // ประเภทรถ
-      for (let n = 0; n < dataday[0].typecar[i].detail.length; n++) { // อาคาร
+    for (let i = 0; i < dataday[0].typecar.length; i++) {
+      // ประเภทรถ
+      for (let n = 0; n < dataday[0].typecar[i].detail.length; n++) {
+        // อาคาร
         valtotalprice = 0;
         valtotalcar = 0;
-        for (let m = 0; m < dataday.length; m++) { // วัน
+        for (let m = 0; m < dataday.length; m++) {
+          // วัน
           valtotalprice += dataday[m].typecar[i].detail[n].detailprice[0].price;
           valtotalcar += dataday[m].typecar[i].detail[n].detailprice[0].numcar;
-          if (i == dataday[0].typecar.length - 1 && n == dataday[0].typecar[i].detail.length - 1 && m == dataday.length - 1) {
+          if (
+            i == dataday[0].typecar.length - 1 &&
+            n == dataday[0].typecar[i].detail.length - 1 &&
+            m == dataday.length - 1
+          ) {
             dashboardTypeCarPrice();
           }
         }
@@ -6710,14 +6724,14 @@ router.post('/dayreportparkall', (req, res) => {
     let datepay = req.body.datepay;
     let enddatepay = req.body.enddatepay;
 
-    let sql = "SELECT Sum(ticker.price) AS DashboardPrice,"
-    sql += "Count(ticker.id) As DashboardCar,"
-    sql += "cartype.idcargroup,cartype.namereport "
-    sql += "FROM ticker "
-    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id "
-    sql += "WHERE ticker.datepay BETWEEN ? AND ? "
+    let sql = "SELECT Sum(ticker.price) AS DashboardPrice,";
+    sql += "Count(ticker.id) As DashboardCar,";
+    sql += "cartype.idcargroup,cartype.namereport ";
+    sql += "FROM ticker ";
+    sql += "INNER JOIN cartype ON ticker.idcar = cartype.id ";
+    sql += "WHERE ticker.datepay BETWEEN ? AND ? ";
     // sql += "WHERE ticker.datepay = ? "
-    sql += "GROUP BY idcargroup "
+    sql += "GROUP BY idcargroup ";
     conp.query(sql, [datepay, enddatepay], (err, resp) => {
       if (err) {
         console.log("[mysql err]", err);
@@ -6727,10 +6741,6 @@ router.post('/dayreportparkall', (req, res) => {
     });
   }
 
-
-
-
-
   function sendData() {
     setTimeout(() => {
       res.send({
@@ -6738,17 +6748,13 @@ router.post('/dayreportparkall', (req, res) => {
         dataday,
         bottomTotal,
         totalBigAllDay,
-        typecarPrice
+        typecarPrice,
       });
     }, 1000);
   }
-})
-
-
-
+});
 
 //#####################  End Park ###################//
-
 
 //#####################  Buffet ###################//
 router.post("/buffet-booking", (req, res) => {
@@ -6821,16 +6827,7 @@ router.post("/buffet-booking", (req, res) => {
         await new Promise((resolve) => {
           conb.query(
             sql,
-            [
-              bdate,
-              btime,
-              idround,
-              idgroup,
-              name,
-              phone,
-              golNamePic,
-              0,
-            ],
+            [bdate, btime, idround, idgroup, name, phone, golNamePic, 0],
             (err, resp) => {
               if (err) {
                 console.log("[mysql err]", err);
@@ -6841,10 +6838,7 @@ router.post("/buffet-booking", (req, res) => {
         });
       }
 
-
-
       sendData();
-
     }
 
     function sendData() {
@@ -6855,9 +6849,7 @@ router.post("/buffet-booking", (req, res) => {
       });
     }
   }
-
 });
-
 
 router.get("/buffet-round-count", (req, res) => {
   let sql = "SELECT idbuffetround, numround FROM countround";
@@ -6866,61 +6858,85 @@ router.get("/buffet-round-count", (req, res) => {
       console.log("[mysql err]", err);
       return res.status(500).send({ error: "Database error" });
     }
-    const rounds = resp.map(row => ({
+    const rounds = resp.map((row) => ({
       idbuffetround: row.idbuffetround,
-      numround: row.numround
+      numround: row.numround,
     }));
     // console.log(rounds);
     res.send({ rounds });
   });
 });
 
-
 router.get("/buffet-check", (req, res) => {
-  const book = req.query.book;
-  const dateround = req.query.dateround;
-
-  if (!book || !dateround) {
-    return res.status(400).send({ error: "Missing book or dateround parameter" });
+  function main() {
+    updateLastTime();
   }
+  main();
 
-  console.log("Checking booking for book:", book, "on date:", dateround);
-
-  // ดึงค่าปัจจุบันของ numround จาก countround
-  let sqlSelect = "SELECT numround FROM countround WHERE idbuffetround = ?";
-  conb.query(sqlSelect, [dateround], (err, result) => {
-    if (err) {
-      console.log("[mysql err]", err);
-      return res.status(500).send({ error: "Database error" });
-    }
-    if (!result || result.length === 0) {
-      return res.status(404).send({ error: "Not found" });
-    }
-    let currentNumRound = result[0].numround;
-    let newNumRound = currentNumRound - parseInt(book, 10);
-    if (newNumRound < 0) {
-      res.send({ success: false, numround: newNumRound });
-    } else {
-      // อัปเดตค่าที่ได้เข้าไปใหม่
-      let sqlUpdate = "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
-      conb.query(sqlUpdate, [newNumRound, dateround], (err, updateResult) => {
+    function updateLastTime() {
+      console.log("updateLastTime");
+      
+      const nowDate = moment().format("YYYY-MM-DD");
+      const nowTime = moment().format("HH:mm:ss");
+      const sql = "UPDATE lasttime SET lastdate = ?, lasttime = ? WHERE id = 1";
+      conb.query(sql, [nowDate, nowTime], (err, resp) => {
         if (err) {
           console.log("[mysql err]", err);
-          return res.status(500).send({ error: "Database error" });
         }
+        // ไม่ต้องส่ง response ตรงนี้ เพราะฟังก์ชันนี้เป็น utility
 
-        res.send({ success: true, numround: newNumRound });
+        checkBooking();
       });
     }
-  });
+
+  function checkBooking() {
+    const book = req.query.book;
+    const dateround = req.query.dateround;
+
+    if (!book || !dateround) {
+      return res
+        .status(400)
+        .send({ error: "Missing book or dateround parameter" });
+    }
+
+    console.log("Checking booking for book:", book, "on date:", dateround);
+
+    // ดึงค่าปัจจุบันของ numround จาก countround
+    let sqlSelect = "SELECT numround FROM countround WHERE idbuffetround = ?";
+    conb.query(sqlSelect, [dateround], (err, result) => {
+      if (err) {
+        console.log("[mysql err]", err);
+        return res.status(500).send({ error: "Database error" });
+      }
+      if (!result || result.length === 0) {
+        return res.status(404).send({ error: "Not found" });
+      }
+      let currentNumRound = result[0].numround;
+      let newNumRound = currentNumRound - parseInt(book, 10);
+      if (newNumRound < 0) {
+        res.send({ success: false, numround: newNumRound });
+      } else {
+        // อัปเดตค่าที่ได้เข้าไปใหม่
+        let sqlUpdate =
+          "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
+        conb.query(sqlUpdate, [newNumRound, dateround], (err, updateResult) => {
+          if (err) {
+            console.log("[mysql err]", err);
+            return res.status(500).send({ error: "Database error" });
+          }
+
+          res.send({ success: true, numround: newNumRound });
+        });
+      }
+    });
+  }
 
   // res.end();
-
 });
 
 router.get("/buffet-report", (req, res) => {
   let sql = "SELECT *, ticket.id AS idtiket ";
-  sql += "FROM ticket "
+  sql += "FROM ticket ";
   sql += "LEFT JOIN buffetround ON ticket.idround = buffetround.id ";
   sql += "ORDER BY ticket.id DESC";
   conb.query(sql, (err, resp) => {
@@ -6957,82 +6973,228 @@ router.post("/buffet-reverse", (req, res) => {
   });
 });
 
-router.get("/buffet-report-update-btn", (req, res) => {
-  const now = new Date();
-  const nowMinus12 = new Date(now.getTime() - 10 * 60 * 1000);
-  const timeLimit = nowMinus12.toTimeString().slice(0, 8); // "HH:mm:ss"
-  const dateLimit = nowMinus12.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
-  // นับจำนวน ticket ที่ confstatus = 0 และ btime < เวลาปัจจุบัน - 12 นาที, group by idround
-  let sql = `
-    SELECT idround, COUNT(*) AS count
-    FROM ticket
-    WHERE confstatus = 0
-      AND (
-        (bdate < ?)
-        OR (bdate = ? AND btime < ?)
-      )
-    GROUP BY idround
-  `;
-  conb.query(sql, [dateLimit, dateLimit, timeLimit], (err, rows) => {
+router.get("/buffet-sync-round", (req, res) => {
+  
+  console.log("buffet-sync-round called");
+  
+
+  const now = moment();
+  let sqlLast = "SELECT lastdate, lasttime FROM lasttime WHERE id = 1";
+  conb.query(sqlLast, (err, rows) => {
     if (err) {
       console.log("[mysql err]", err);
       return res.status(500).send({ error: "Database error" });
     }
     if (!rows || rows.length === 0) {
-      return res.send({ updated: 0, detail: [] });
+      return res.status(404).send({ error: "No lasttime record" });
+    }
+    const lastMoment = moment(`${rows[0].lastdate} ${rows[0].lasttime}`, "YYYY-MM-DD HH:mm:ss");
+    const diffMinutes = now.diff(lastMoment, "minutes");
+    if (diffMinutes < 1) {
+      return res.send({ updated: false, message: "Not enough time passed" });
     }
 
-    let updated = 0;
-    let detail = [];
-    let updateTasks = rows.map(row => {
-      return new Promise((resolve, reject) => {
-        // ดึงค่า numround เดิม
-        let selectSql = "SELECT numround FROM countround WHERE idbuffetround = ?";
-        conb.query(selectSql, [row.idround], (err, result) => {
-          if (err) return reject(err);
-          if (!result || result.length === 0) return resolve();
-          let oldNum = result[0].numround;
-          let newNum = oldNum + row.count;
-          // อัปเดตค่า numround
-          let updateSql = "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
-          conb.query(updateSql, [newNum, row.idround], (err2) => {
+    // นับจำนวน ticket group by idround
+    let sqlTicket = `
+      SELECT idround, COUNT(*) AS count
+      FROM ticket
+      GROUP BY idround
+    `;
+    conb.query(sqlTicket, async (err, ticketRows) => {
+      if (err) {
+        console.log("[mysql err]", err);
+        return res.status(500).send({ error: "Database error" });
+      }
+      if (!ticketRows || ticketRows.length === 0) {
+        return res.send({ updated: false, message: "No ticket data" });
+      }
+
+      let updateTasks = ticketRows.map(row => {
+        return new Promise((resolve, reject) => {
+          // อัปเดท countround.numround = 70 - ticketCount
+          let newNum = 70 - row.count;
+          let sqlUpdate = "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
+          console.log(sqlUpdate, [newNum, row.idround]);
+          
+          conb.query(sqlUpdate, [newNum, row.idround], (err2) => {
             if (err2) return reject(err2);
-            // อัปเดต ticket เป็น confstatus = 3
-            let updateTicketSql = `
-              UPDATE ticket
-              SET confstatus = 3
-              WHERE confstatus = 0
-                AND idround = ?
-                AND (
-                  (bdate < ?)
-                  OR (bdate = ? AND btime < ?)
-                )
-            `;
-            conb.query(updateTicketSql, [row.idround, dateLimit, dateLimit, timeLimit], (err3) => {
-              if (err3) return reject(err3);
-              updated++;
-              detail.push({
-                idround: row.idround,
-                oldNum,
-                add: row.count,
-                newNum
-              });
-              resolve();
-            });
+            resolve({ idround: row.idround, ticketCount: row.count, newNum });
           });
         });
       });
-    });
 
-    Promise.all(updateTasks)
-      .then(() => res.send({ updated, detail }))
-      .catch(e => {
+      try {
+        let results = await Promise.all(updateTasks);
+        res.send({ updated: true, detail: results ,message : "Sync completed successfully"});
+      } catch (e) {
         console.log("[mysql err]", e);
         res.status(500).send({ error: "Database error" });
-      });
+      }
+    });
   });
 });
+
+
+
+
+// router.get("/buffet-sync-round", (req, res) => {
+//   // 1. ตรวจสอบ lasttime ว่าเกิน 10 นาทีหรือยัง
+//   const now = new Date();
+//   const nowMoment = moment(now);
+//   let lastDate, lastTime;
+
+//   let sqlLast = "SELECT lastdate, lasttime FROM lasttime WHERE id = 1";
+//   conb.query(sqlLast, (err, rows) => {
+//     if (err) {
+//       console.log("[mysql err]", err);
+//       return res.status(500).send({ error: "Database error" });
+//     }
+//     if (!rows || rows.length === 0) {
+//       return res.status(404).send({ error: "No lasttime record" });
+//     }
+//     lastDate = rows[0].lastdate;
+//     lastTime = rows[0].lasttime;
+
+//     // รวมวันและเวลา
+//     let lastMoment = moment(`${lastDate} ${lastTime}`, "YYYY-MM-DD HH:mm:ss");
+//     let diffMinutes = nowMoment.diff(lastMoment, "minutes");
+
+//     if (diffMinutes < 10) {
+//       // ยังไม่ถึง 10 นาที
+//       return res.send({ updated: false, message: "Not enough time passed" });
+//     }
+
+//     // 2. นับจำนวน ticket group by idround
+//     let sqlTicket = `
+//       SELECT idround, COUNT(*) AS count
+//       FROM ticket
+//       GROUP BY idround
+//     `;
+//     conb.query(sqlTicket, async (err, ticketRows) => {
+//       if (err) {
+//         console.log("[mysql err]", err);
+//         return res.status(500).send({ error: "Database error" });
+//       }
+//       if (!ticketRows || ticketRows.length === 0) {
+//         return res.send({ updated: false, message: "No ticket data" });
+//       }
+
+//       let updateTasks = ticketRows.map(row => {
+//         return new Promise((resolve, reject) => {
+//           // ดึง countround.numround เดิม
+//           let sqlCount = "SELECT numround FROM countround WHERE idbuffetround = ?";
+//           conb.query(sqlCount, [row.idround], (err, countRows) => {
+//             if (err) return reject(err);
+//             if (!countRows || countRows.length === 0) return resolve();
+//             let oldNum = countRows[0].numround;
+//             let newNum = oldNum - row.count;
+//             // อัปเดต countround.numround = oldNum - ticketCount
+//             let sqlUpdate = "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
+//             conb.query(sqlUpdate, [newNum, row.idround], (err2) => {
+//               if (err2) return reject(err2);
+//               resolve({ idround: row.idround, oldNum, ticketCount: row.count, newNum });
+//             });
+//           });
+//         });
+//       });
+
+//       try {
+//         let results = await Promise.all(updateTasks);
+//         res.send({ updated: true, detail: results });
+//       } catch (e) {
+//         console.log("[mysql err]", e);
+//         res.status(500).send({ error: "Database error" });
+//       }
+//     });
+//   });
+// });
+
+
+
+
+
+
+
+
+
+
+// router.get("/buffet-report-update-btn", (req, res) => {
+//   const now = new Date();
+//   const nowMinus12 = new Date(now.getTime() - 10 * 60 * 1000);
+//   const timeLimit = nowMinus12.toTimeString().slice(0, 8); // "HH:mm:ss"
+//   const dateLimit = nowMinus12.toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+//   // นับจำนวน ticket ที่ confstatus = 0 และ btime < เวลาปัจจุบัน - 12 นาที, group by idround
+//   let sql = `
+//     SELECT idround, COUNT(*) AS count
+//     FROM ticket
+//     WHERE confstatus = 0
+//       AND (
+//         (bdate < ?)
+//         OR (bdate = ? AND btime < ?)
+//       )
+//     GROUP BY idround
+//   `;
+//   conb.query(sql, [dateLimit, dateLimit, timeLimit], (err, rows) => {
+//     if (err) {
+//       console.log("[mysql err]", err);
+//       return res.status(500).send({ error: "Database error" });
+//     }
+//     if (!rows || rows.length === 0) {
+//       return res.send({ updated: 0, detail: [] });
+//     }
+
+//     let updated = 0;
+//     let detail = [];
+//     let updateTasks = rows.map(row => {
+//       return new Promise((resolve, reject) => {
+//         // ดึงค่า numround เดิม
+//         let selectSql = "SELECT numround FROM countround WHERE idbuffetround = ?";
+//         conb.query(selectSql, [row.idround], (err, result) => {
+//           if (err) return reject(err);
+//           if (!result || result.length === 0) return resolve();
+//           let oldNum = result[0].numround;
+//           let newNum = oldNum + row.count;
+//           // อัปเดตค่า numround
+//           let updateSql = "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
+//           conb.query(updateSql, [newNum, row.idround], (err2) => {
+//             if (err2) return reject(err2);
+//             // อัปเดต ticket เป็น confstatus = 3
+//             let updateTicketSql = `
+//               UPDATE ticket
+//               SET confstatus = 3
+//               WHERE confstatus = 0
+//                 AND idround = ?
+//                 AND (
+//                   (bdate < ?)
+//                   OR (bdate = ? AND btime < ?)
+//                 )
+//             `;
+//             conb.query(updateTicketSql, [row.idround, dateLimit, dateLimit, timeLimit], (err3) => {
+//               if (err3) return reject(err3);
+//               updated++;
+//               detail.push({
+//                 idround: row.idround,
+//                 oldNum,
+//                 add: row.count,
+//                 newNum
+//               });
+//               resolve();
+//             });
+//           });
+//         });
+//       });
+//     });
+
+//     Promise.all(updateTasks)
+//       .then(() => res.send({ updated, detail }))
+//       .catch(e => {
+//         console.log("[mysql err]", e);
+//         res.status(500).send({ error: "Database error" });
+//       });
+//   });
+// });
 
 router.get("/buffet-report-round/:id", (req, res) => {
   const id = req.params.id;
@@ -7053,12 +7215,10 @@ router.get("/buffet-report-round/:id", (req, res) => {
   });
 });
 
-
 router.get("/buffet-report-id", (req, res) => {
-  
   let status = req.query.status;
   console.log("Fetching buffet report with status:", status);
-  
+
   let sql = "SELECT *, ticket.id AS idtiket FROM ticket ";
   sql += "LEFT JOIN buffetround ON ticket.idround = buffetround.id ";
   if (status !== undefined) {
@@ -7074,8 +7234,58 @@ router.get("/buffet-report-id", (req, res) => {
     res.send(resp);
   });
 });
+
+router.get("/buffet-update-book", (req, res) => {
+  console.log("Updating buffet booking...");
+
+  const book = parseInt(req.query.book, 10);
+  const dateround = req.query.dateround;
+
+  if (isNaN(book) || !dateround) {
+    return res
+      .status(400)
+      .send({ error: "Missing or invalid book or dateround parameter" });
+  }
+
+  let sqlSelect = "SELECT numround FROM countround WHERE idbuffetround = ?";
+  conb.query(sqlSelect, [dateround], (err, result) => {
+    if (err) {
+      console.log("[mysql err]", err);
+      return res.status(500).send({ error: "Database error" });
+    }
+    if (!result || result.length === 0) {
+      return res.status(404).send({ error: "Not found" });
+    }
+    let currentNumRound = result[0].numround;
+    let newNumRound = currentNumRound + book;
+    let sqlUpdate =
+      "UPDATE countround SET numround = ? WHERE idbuffetround = ?";
+    conb.query(sqlUpdate, [newNumRound, dateround], (err, updateResult) => {
+      if (err) {
+        console.log("[mysql err]", err);
+        return res.status(500).send({ error: "Database error" });
+      }
+      res.send({ success: true, numround: newNumRound });
+    });
+  });
+});
+
+
+router.post("/buffet-receive-ticket", (req, res) => {
+  const id = req.body.id;
+  if (!id) {
+    return res.status(400).send({ error: "Missing id parameter" });
+  }
+  let sql = "UPDATE ticket SET confstatus = 4 WHERE id = ?";
+  conb.query(sql, [id], (err, resp) => {
+    if (err) {
+      console.log("[mysql err]", err);
+      return res.status(500).send({ error: "Database error" });
+    }
+    res.send({ success: true });
+  });
+});
+
 //#####################  End Buffet ###################//
-
-
 
 module.exports = router;
