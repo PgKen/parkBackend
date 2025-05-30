@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: 0;
+  font-family: "Sarabun", sans-serif;
+  font-family: "Sarabun", sans-serif;
+  font-size: 18px;
+}
+
+body ul.box-iosqrcode {
+  border: 1px solid #CCC;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+}
+body ul.box-iosqrcode li {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
+body ul.box-iosqrcode li span {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  border: 1px solid #CCC;
+  margin: 5px;
+  padding: 10px;
+  background-color: #CCC;
+  font-size: 18px;
+}
+body ul.box-iosqrcode li span:nth-child(1) {
+  flex: 0.5;
+}
+body ul.box-iosqrcode li span:nth-child(2) {
+  background-color: #bce296;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <!-- <div>Login</div> -->
+    <ul class="box-iosqrcode">
+      <li>
+        <input
+          id="valid"
+          type="hidden"
+          class="form-control"
+          placeholder="password"
+          aria-label="password"
+          aria-describedby="basic-addon1"
+          style="text-align: center"
+          value="<%=id%>"
+        />
+      </li>
+      <li>&nbsp;</li>
+      <li>
+        <input
+          id="valpass"
+          type="text"
+          class="form-control"
+          placeholder="password"
+          aria-label="password"
+          aria-describedby="basic-addon1"
+          style="text-align: center"
+        />
+      </li>
+      <li>
+        <input
+          id="valpasshiden"
+          type="hidden"
+          value="<%=staffpass%>"
+          class="form-control"
+          placeholder="staff password"
+          aria-label="password"
+          aria-describedby="basic-addon1"
+          style="text-align: center"
+        />
+      </li>
+      <li>
+        <input id="idstaffcheck" type="hidden" value="<%=idcheck%>"/>
+      </li>
+      <li>&nbsp;</li>
+      <li>
+        <button type="button" class="btn btn-primary" onclick="summitpass()">
+          ตกลง
+        </button>
+      </li>
+    </ul>
+    <ul class="box-iosqrcode">
+      <li>
+        <span style="background-color: darkgreen; color: white"
+          >รายละเอียด</span
+        >
+      </li>
+      <li>&nbsp;</li>
+      <li>
+        <span>วันที่</span>
+        <span><%=data[0].datepay%></span>
+      </li>
+      <li>
+        <span>เวลา</span>
+        <span><%=data[0].timepay%>&nbsp;น.</span>
+      </li>
+      <li>
+        <span>ทะเบียนรถ</span>
+        <span><%=data[0].plate%></span>
+      </li>
+      <li>
+        <span>ประเภทรถ</span>
+        <span><%=data[0].cartype%></span>
+      </li>
+      <li>
+        <span>ราคา</span>
+        <span><%=data[0].price%>&nbsp;บาท</span>
+      </li>
+      <li>
+        <span>ผู้เก็บเงิน</span>
+        <span><%=data[0].namestaff%></span>
+      </li>
+      
+      <!-- <li>
+        <span>ผู้ตรวจ ID</span>
+        <span><%=data[0].idftaffcheck%></span>
+      </li> -->
+      <!-- <li>
+        <span>ผู้ตรวจ password</span>
+        <span><%=staffpass%></span>
+      </li> -->
+      <li>
+        <span>ผู้ตรวจ</span>
+        <span><%=data[0].namestaffcheck%></span>
+      </li>
+      <% if(data[0].idftaffcheck != 0 && data[0].namestaff != "") { %>
+        <li style="padding: 20px">ตรวจแล้ว
+        </li>
+      <% } else { %>
+      <li style="padding: 20px">
+        <button type="button" class="btn btn-primary" onclick="summitcheck()">
+          ตกลง
+        </button>
+      </li>
+      <% } %>
+
+      <% if(data[0].picture != ""){ %>
+      <li style="padding: 10px">
+        <img
+          src="http://srimuangpay.com:4545/uploadplat/<%=data[0].picture%>"
+          alt="qrcode"
+          width="70%"
+        />
+      </li>
+      <% } %>
+    </ul>
+  </body>
+
+  <script>
+    //   window.location.href = "/checkplat";
+    async function summitcheck() {
+      console.log("summitcheck");
+      let idticker = document.getElementById("valid").value;
+      let pass = document.getElementById("valpasshiden").value;
+      try {
+        let id = document.getElementById("idstaffcheck").value;
+      let idticker = document.getElementById("valid").value;
+
+        // const response = await axios.get("/pupdatecheck?id=" + id +"&idticker="+ idticker);
+        const response = await axios.post("/pupdatecheck",{
+          id : id,
+          idticker : idticker
+        })
+        console.log(response.status);
+        window.location.href = "/qrcodedetail/" + pass + "/" + idticker;
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function summitpass() {
+      // let pass = document.querySelector("input").value;
+
+      let id = document.getElementById("valid").value;
+      let pass = document.getElementById("valpass").value;
+      if(pass == ""){
+        pass = '0000';
+      }
+      console.log("pass= " + pass);
+      window.location.href = "/qrcodedetail/" + pass + "/" + id;
+      // window.location.href = "/qrcodedetail?pass=" + pass + "&id=" + id;
+    }
+  </script>
+</html>

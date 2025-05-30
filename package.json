@@ -1,0 +1,26 @@
+{
+  "name": "nativebackend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "comma-number": "^2.1.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.3.1",
+    "http-errors": "~1.6.3",
+    "moment": "^2.29.1",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.3.2",
+    "node-rtsp-stream": "^0.0.9",
+    "nodemon": "^2.0.21",
+    "socket.io": "^4.7.2",
+    "uuid": "^8.3.2"
+  }
+}
