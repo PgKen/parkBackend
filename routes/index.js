@@ -6991,10 +6991,14 @@ router.get("/buffet-sync-round", (req, res) => {
     }
     const lastMoment = moment(`${rows[0].lastdate} ${rows[0].lasttime}`, "YYYY-MM-DD HH:mm:ss");
     const diffMinutes = now.diff(lastMoment, "minutes");
-    if (diffMinutes < 1) {
+    if (diffMinutes < 10) {
       return res.send({ updated: false, message: "Not enough time passed" });
     }
 
+    // นับจำนวน ticket group by idround
+    // นับจำนวน ticket group by idround
+    // นับจำนวน ticket group by idround
+    // นับจำนวน ticket group by idround
     // นับจำนวน ticket group by idround
     let sqlTicket = `
       SELECT idround, COUNT(*) AS count
