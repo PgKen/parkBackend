@@ -7290,23 +7290,6 @@ router.post("/buffet-receive-ticket", (req, res) => {
   });
 });
 
-router.post("/buffet-update-name", (req, res) => {
-  const id = req.body.id;
-  const name = req.body.name;
-  if (!id || !name) {
-    return res.status(400).send({ error: "Missing id or name parameter" });
-  }
-  let sql = "UPDATE ticket SET name = ? WHERE id = ?";
-  conb.query(sql, [name, id], (err, resp) => {
-    if (err) {
-      console.log("[mysql err]", err);
-      return res.status(500).send({ error: "Database error" });
-    }
-    res.send({ success: true });
-  });
-});
-
-
 //#####################  End Buffet ###################//
 
 module.exports = router;
